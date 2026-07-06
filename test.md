@@ -54,20 +54,6 @@ A few decisions I made early and stuck with:
 
 The audio chime on the Pomodoro is a little Web Audio `sine` blip that can't be cooler. That's intentional.
 
-## Screenshots
-
-The dashboard rendered on a desktop window, with command bar focused:
-
-```
-        09  :  24
-        Good morning.
-
-        ┌────────────────────────────────┐
-        │  ⌕ Search the web ── ⌘K        │
-        └────────────────────────────────┘
-```
-
-(Real screenshots in this repo are coming — placeholders above show the visible region of the rendered hero block. Drop them into `/screenshots/` when you have them.)
 
 ## Running it
 
@@ -138,6 +124,3 @@ These are the eight keys AURA writes to `localStorage`. Refactoring or backing u
 - [Spotify for Developers](https://developer.spotify.com) for the Playback SDK.
 - Icons are inline SVG. No icon library used.
 
-## Licence
-
-Do whatever you want with it.
