@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AURA — Dashboard</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Spotify Web Playback SDK -->
+  <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+  <div class="noise-overlay"></div>
+  <div class="vignette"></div>
+
+  <!-- Audio element for real lofi audio playback -->
+  <audio id="audio-element" preload="auto"></audio>
+
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="brand-dot"></span>
+      <span class="brand-name">AURA</span>
+    </div>
+    <div class="topbar-right">
+      <button class="icon-btn" id="theme-toggle" title="Cycle accent color" aria-label="Cycle accent color">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" id="settings-toggle" title="Dashboard options" aria-label="Dashboard settings">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+      <div class="status-chip" id="status-chip">
+        <span class="status-dot"></span>
+        <span id="status-text">Ready</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Overlay / Panel -->
+  <div class="settings-modal" id="settings-modal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h3>Dashboard Customization</h3>
+        <button id="settings-close" aria-label="Close settings">&times;</button>
+      </div>
+      <div class="settings-body">
+        <div class="settings-group">
+          <label for="particle-density">Particle Density</label>
+          <input type="range" id="particle-density" min="0" max="150" value="60">
+        </div>
+        <div class="settings-group">
+          <label for="particle-speed">Drift Speed</label>
+          <input type="range" id="particle-speed" min="0" max="10" value="3">
+        </div>
+        <div class="settings-group">
+          <label>Noise Overlay</label>
+          <button class="toggle-btn active" id="toggle-noise">Enabled</button>
+        </div>
+        <div class="settings-group">
+          <label>Background Style</label>
+          <select id="bg-style">
+            <option value="pulse">Pulse Dynamic</option>
+            <option value="nordic">Nordic Aurora</option>
+            <option value="cyber">Cyber Space</option>
+          </select>
+        </div>
+        <div class="settings-group">
+          <button class="reset-btn" id="reset-layout-btn">Reset Grid Layout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="stage">
+    <section class="hero" id="hero">
+          <div class="hero-date" id="hero-date">—</div>
+      <div class="clock" id="clock" aria-label="current time">
+        <span id="clock-h">00</span><span class="colon">:</span><span id="clock-m">00</span><span class="clock-sec" id="clock-s">00</span>
+      </div>
+      <div class="greeting" id="greeting">Good day.</div>
+
+      <div class="command-bar" id="command-bar">
+        <svg class="cmd-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="command-input" placeholder="Search web or type a command…" autocomplete="off" spellcheck="false">
+        <span class="cmd-kbd">⌘K</span>
+        <div class="cmd-panel" id="cmd-panel"></div>
+      </div>
+    </section>
+
+    <!-- Bento Grid with HTML5 Drag & Drop Enabled -->
+    <section class="grid" id="widget-grid">
+      
+      <!-- Weather Widget -->
+      <article class="card widget" data-widget="weather" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Weather</span>
+          <span class="card-sub" id="weather-loc">Locating…</span>
+        </header>
+        <div class="weather-body">
+          <div class="weather-temp" id="weather-temp">—°</div>
+          <div class="weather-icon" id="weather-icon">☁</div>
+        </div>
+        <div class="weather-desc" id="weather-desc">Fetching conditions…</div>
+        <div class="weather-range">
+          <span id="weather-hi">H: —°</span>
+          <span id="weather-lo">L: —°</span>
+        </div>
+        <form class="weather-form" id="weather-form">
+          <input type="text" id="weather-location-input" placeholder="Search City..." autocomplete="off">
+          <button type="submit" id="weather-location-btn">Save</button>
+        </form>
+      </article>
+
+      <!-- Pomodoro Widget (Replacing static focus) -->
+      <article class="card widget widget-focus" data-widget="focus" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Focus Cycle</span>
+          <span class="card-sub" id="pomodoro-phase">Pomodoro</span>
+        </header>
+        <div class="pomodoro-body">
+          <div class="timer-display-container">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+              <circle class="timer-track" cx="50" cy="50" r="45"></circle>
+              <circle class="timer-progress" id="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="timer-time" id="timer-time">25:00</div>
+          </div>
+          <div class="pomodoro-controls">
+            <button class="pomo-btn" id="pomo-start-pause" aria-label="Start or pause timer">Start</button>
+            <button class="pomo-btn pomo-btn-secondary" id="pomo-reset" aria-label="Reset timer">Reset</button>
+          </div>
+        </div>
+        <div class="focus-pills">
+          <button class="focus-pill active" data-type="work" type="button">Work</button>
+          <button class="focus-pill" data-type="short" type="button">Short Break</button>
+          <button class="focus-pill" data-type="long" type="button">Long Break</button>
+        </div>
+      </article>
+
+      <!-- Tasks Widget -->
+      <article class="card widget widget-todo" data-widget="todo" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Tasks</span>
+          <span class="card-sub" id="todo-count">0 open</span>
+        </header>
+        <form class="todo-form" id="todo-form">
+          <input type="text" id="todo-input" placeholder="Add a task…" maxlength="140" autocomplete="off">
+          <button type="submit" class="todo-add" aria-label="Add task">+</button>
+        </form>
+        <ul class="todo-list" id="todo-list"></ul>
+      </article>
+
+      <!-- Quick Links Speed Dial Widget -->
+      <article class="card widget widget-notes" data-widget="speeddial" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Speed Dial</span>
+          <span class="card-sub" id="shortcuts-count">Shortcut links</span>
+        </header>
+        
+        <div class="speeddial-grid" id="speeddial-grid">
+          <!-- Dynamically populated links -->
+        </div>
+
+        <form class="shortcut-form" id="shortcut-form">
+          <input type="text" id="shortcut-name" placeholder="Name" required autocomplete="off">
+          <input type="url" id="shortcut-url" placeholder="https://..." required autocomplete="off">
+          <button type="submit">Add Link</button>
+        </form>
+      </article>
+
+      <!-- Spotify Player Widget -->
+      <article class="card widget widget-music" data-widget="music" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Spotify • Player</span>
+          <div class="visualizer" id="spotify-visualizer">
+            <span></span><span></span><span></span><span></span>
+          </div>
+        </header>
+        
+        <div class="spotify-auth-section" id="spotify-auth-section">
+          <p class="spotify-auth-text">Connect your Spotify account to control playback</p>
+          <button class="spotify-auth-btn" id="spotify-login-btn">Connect Spotify</button>
+          <p class="spotify-auth-note">Requires Spotify Premium</p>
+        </div>
+
+        <div class="spotify-player-section" id="spotify-player-section" style="display: none;">
+          <div class="music-body">
+            <div class="music-art" id="spotify-art">
+              <div class="music-art-ring"></div>
+              <div class="music-art-disk" id="spotify-art-disk">
+                <img id="spotify-cover-img" src="" alt="" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+              </div>
+            </div>
+            <div class="music-meta">
+              <div class="music-title" id="spotify-track-name">Not Connected</div>
+              <div class="music-artist" id="spotify-artist-name">—</div>
+              
+              <div class="music-progress-wrapper">
+                <input type="range" class="music-progress-slider" id="spotify-progress-slider" min="0" value="0" step="1">
+                <div class="music-progress-fill" id="spotify-progress-fill"></div>
+              </div>
+              
+              <div class="music-times">
+                <span id="spotify-time-cur">0:00</span>
+                <span id="spotify-time-dur">0:00</span>
+              </div>
+            </div>
+          </div>
+          <div class="music-control-row">
+            <div class="music-controls">
+              <button class="music-btn" id="spotify-prev" aria-label="Previous track">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 5v14M18 5l-10 7 10 7z"/></svg>
+              </button>
+              <button class="music-btn music-btn-play" id="spotify-play" aria-label="Play or pause">
+                <svg viewBox="0 0 24 24" width="18" height="18" id="spotify-play-icon"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </button>
+              <button class="music-btn" id="spotify-next" aria-label="Next track">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 5v14M6 5l10 7-10 7z"/></svg>
+              </button>
+            </div>
+            <div class="volume-control">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="volume-icon">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              <input type="range" id="spotify-volume-slider" min="0" max="1" step="0.05" value="0.7">
+            </div>
+          </div>
+          <div class="spotify-search-row">
+            <input type="text" id="spotify-search-input" placeholder="Search tracks..." autocomplete="off">
+            <button id="spotify-search-btn">Search</button>
+          </div>
+          <div class="spotify-search-results" id="spotify-search-results"></div>
+        </div>
+      </article>
+
+      <!-- Notes Widget -->
+      <article class="card widget widget-notes" data-widget="notes" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Quick Notes</span>
+          <span class="card-sub" id="notes-status">Saved</span>
+        </header>
+        <textarea id="notes-area" class="notes-area" placeholder="Write down whatever is on your mind..." maxlength="4000"></textarea>
+      </article>
+
+      <!-- Signal / Stats Widget -->
+      <article class="card widget widget-quote" data-widget="quote" draggable="true" tabindex="0">
+        <div class="drag-handle" title="Drag to rearrange">:::</div>
+
+        <header class="card-head">
+          <span class="card-title">Daily Signal</span>
+          <span class="card-sub" id="quote-refresh-label">Today</span>
+        </header>
+        <blockquote class="quote-text" id="quote-text">Loading inspiration…</blockquote>
+        <div class="quote-stats">
+          <div class="quote-stat">
+            <span class="quote-stat-num" id="stat-uptime">0</span>
+            <span class="quote-stat-label">days active</span>
+          </div>
+          <div class="quote-stat">
+            <span class="quote-stat-num" id="stat-tasks">0</span>
+            <span class="quote-stat-label">tasks done</span>
+          </div>
+          <div class="quote-stat">
+            <span class="quote-stat-num" id="stat-focus">0</span>
+            <span class="quote-stat-label">visits today</span>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <div class="drag-hint" id="drag-hint">Drag handle ::: to rearrange tiles</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
