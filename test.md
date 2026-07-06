@@ -30,7 +30,6 @@ I reworked a few things while I was in there:
 - **An honest CSS pass.** Stripped out the glassmorphism. Replaced gradient cards with hairline borders. Big monochrome type. The dashboard now leans closer to an editorial layout than a marketed SaaS one. Less bling, more hierarchy.
 - **Habit Tracker (new widget).** Add a habit, tap the day, see your streak. Days live on the same calendar week so things stay simple.
 - **Export / Import.** One click in the topbar dumps every localStorage key to a JSON file. Drop that file back into the page on a different machine and your whole setup is restored — theme, layout, todos, notes, shortcuts, weather city, habits, the lot.
-- **Keyboard shortcuts.** Press `?` (or click the `?` button) for the cheatsheet. `⌘K` command bar, `⌘,` options, `⌘E` export, `T` cycle accent.
 
 ## How I made it
 
