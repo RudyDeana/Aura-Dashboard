@@ -1,87 +1,9 @@
-# AURA Dashboard - Custom New Tab Page
+AURA Dashboard - Your Beautiful, Custom New Tab Page A gorgeous, fully-interactive new tab dashboard designed specifically for Hack Club's "Give Your Website a Pulse" challenge! What you'll find inside - Vibrant, customizable UI with distinct color themes - Real-time weather via Open-Meteo API - Focused work sessions with a Pomodoro Timer - Easy task management with persistent local storage - One-click access to your favorite websites with Speed Dial - Deep Spotify integration for seamless control of your music - Quick, auto-saving notes - An animated, particle-based background - Mobile and desktop responsive design - Drag-and-drop widgets for ultimate customization - A swift command bar with Cmd+K for quick actions Tech Stack - HTML5 - CSS3 (including custom properties, animations, and gradients) - Vanilla JavaScript (zero frameworks, pure skill!) - Open-Meteo API (for weather and geocoding) Getting Up and Running - Clone or download the repository - Open index.html in your favorite web browser - (Optional but highly recommended!) Set it as your default new tab page! 
 
-A beautiful, interactive new tab dashboard built for Hack Club's "Give Your Website a Pulse" challenge!
+Customization Options - Tweak your accent color by clicking the sun icon in the top bar. - Dive into the settings modal (gear icon) to control: - Particle density and speed - Noise overlay effect - Background style - Reorder your widgets by dragging the ::: handle. 
 
-## Features
+Spotify Integration (Requires Spotify Premium) - To use the music widget: 1. Get your Spotify Developer credentials: - Go to the Spotify Developer dashboard - Log in with your Spotify account - Click "Create App" and provide a name and description - Accept the terms and create the app - Copy your unique "Client ID" - In script.js, around line 498, replace 'YOURSPOTIFYCLIENT_ID' with your Client ID - Add your redirect URI(s) in the Spotify app's settings: - Local development: http://localhost:5500/callback.html (or your server's address) - Production: https://yourdomain.com/callback.html 2. Set your Redirect URIs: - In your Spotify app dashboard, click "Edit Settings" - Add your specified redirect URI(s) and save. 3. 
 
-- 🎨 **Customizable UI**: Cycle through different accent color themes
-- 🌦️ **Weather Widget**: Real-time weather data from Open-Meteo API
-- ⏱️ **Pomodoro Timer**: Focus cycles with work/break intervals
-- 📝 **Task List**: Manage your todos with local storage persistence
-- 🔗 **Speed Dial**: Quick access to your favorite websites
-- 🎵 **Spotify Integration**: Connect your Spotify account for full playback control
-- 📝 **Quick Notes**: Jot down your thoughts, auto-saved locally
-- 💫 **Interactive Background**: Particle-based animated background
-- 📱 **Responsive Design**: Works great on mobile and desktop
-- 🎯 **Drag & Drop**: Reorder widgets to your liking
-- ⌨️ **Command Bar**: Quick search and actions with Cmd+K
+Connect your account: - Open the dashboard in your browser - Click "Connect Spotify" in the music widget - Authorize the application to access your Spotify account - Enjoy controlling your music! 
 
-## Tech Stack
-
-- HTML5
-- CSS3 (Custom properties, animations, gradients)
-- Vanilla JavaScript (No frameworks)
-- APIs used: Open-Meteo (Weather & Geocoding)
-
-## Getting Started
-
-1. Clone or download this project
-2. Open `index.html` in your browser
-3. Optional: Set it as your browser's new tab page!
-
-## Customization
-
-- Click the sun icon in the top bar to change accent colors
-- Open the settings modal (gear icon) to adjust:
-  - Particle density
-  - Particle speed
-  - Noise overlay
-  - Background style
-- Drag the `:::` handle on widgets to reorder them
-
-## Spotify Integration Setup
-
-The Spotify widget requires a Spotify Premium account and API credentials to work:
-
-1. **Create a Spotify Developer Account**
-   - Go to https://developer.spotify.com/dashboard
-   - Log in with your Spotify account
-
-2. **Create a New App**
-   - Click "Create App"
-   - Fill in the app name and description
-   - Accept the terms and create
-
-3. **Configure the App**
-   - Copy the **Client ID** from your app dashboard
-   - In `script.js`, line 498, replace `'YOUR_SPOTIFY_CLIENT_ID'` with your Client ID
-   - Add your redirect URI in the Spotify dashboard:
-     - For local development: `http://localhost:5500/callback.html` (or your local server)
-     - For production: `https://yourdomain.com/callback.html`
-
-4. **Set Redirect URIs**
-   - In your Spotify app dashboard, go to "Edit Settings"
-   - Add your redirect URI(s) to the "Redirect URIs" field
-   - Save the changes
-
-5. **Connect Your Account**
-   - Open the dashboard in your browser
-   - Click "Connect Spotify" in the music widget
-   - Authorize the app to access your account
-   - Start controlling your Spotify music!
-
-**Note**: Spotify Web Playback SDK requires a Premium subscription. Free accounts can search but cannot control playback.
-
-## Deployment
-
-This project is 100% static, so it can be deployed anywhere! Some options:
-- GitHub Pages
-- Vercel
-- Netlify
-- Cloudflare Pages
-
-## Credits
-
-- Built for [Hack Club](https://hackclub.com)
-- Weather data from [Open-Meteo](https://open-meteo.com)
-- Music from [SoundHelix](https://soundhelix.com)
+(Note: The Spotify Web Playback SDK needs a Premium account for playback control; free accounts can only search for tracks.) Deployment This dashboard is built with 100% static files, making it perfect for effortless deployment to services like: - GitHub Pages - Vercel - Netlify - Cloudflare Pages Credits - Developed for the awesome Hack Club community - Weather data courtesy of Open-Meteo - Music provided by SoundHelix
