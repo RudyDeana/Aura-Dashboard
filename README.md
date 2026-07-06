@@ -31,6 +31,7 @@ I reworked a few things while I was in there:
 - **Habit Tracker (new widget).** Add a habit, tap the day, see your streak. Days live on the same calendar week so things stay simple.
 - **Export / Import.** One click in the topbar dumps every localStorage key to a JSON file. Drop that file back into the page on a different machine and your whole setup is restored — theme, layout, todos, notes, shortcuts, weather city, habits, the lot.
 
+
 ## How I made it
 
 This is a static project. There is no build step, no framework, no bundler, no package manager. Three files do all the work:
