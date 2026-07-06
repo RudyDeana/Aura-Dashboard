@@ -1,20 +1,19 @@
-# AURA Dashboard - Your Beautiful, Custom New Tab Page
+# AURA Dashboard - Custom New Tab Page
 
-A gorgeous, fully-interactive new tab dashboard designed specifically for Hack Club's **"Give Your Website a Pulse"** challenge!
+A fully-interactive new tab dashboard created specifically for Hack Club's **"Give Your Website a Pulse"** challenge
 
 ## What you'll find inside
 
-- 🌈 **Vibrant, customizable UI** with distinct color themes  
-- 🌦️ **Real-time weather** via Open-Meteo API  
-- ⏱️ **Pomodoro Timer** for focused work sessions  
-- 📋 **Task management** with persistent local storage  
-- ⚡ **Speed Dial** – one-click access to your favorite websites  
-- 🎵 **Deep Spotify integration** for seamless music control  
-- 📝 **Quick Notes** – auto-saving  
-- ✨ **Animated particle background**  
-- 📱 **Fully responsive** on mobile and desktop  
-- 🖱️ **Drag & Drop** widgets for ultimate customization  
-- ⌨️ **Command Bar** (Cmd/Ctrl + K) for quick actions  
+-  **Varius color theme** with distinct color themes  
+-  **Real-time weather** via Open-Meteo API  
+-  **Pomodoro Timer** for focused work sessions  
+-  **Task management** with persistent local storage  
+-  **Speed Dial** – one-click access to your favorite websites  
+-  **Deep Spotify integration** for seamless music control  
+-  **Quick Notes** – auto-saving    
+-  **Fully responsive** on mobile and desktop  
+-  **Drag & Drop** widgets for ultimate customization  
+-  **Command Bar** (Cmd/Ctrl + K) for quick actions  
 
 ## Tech Stack
 
@@ -27,7 +26,7 @@ A gorgeous, fully-interactive new tab dashboard designed specifically for Hack C
 
 1. Clone or download the repository
 2. Open `index.html` in your favorite web browser
-3. *(Optional but highly recommended!)* Set it as your default new tab page
+3. *(Optional)* Set it as your default new tab page
 
 ## Customization Options
 
@@ -38,7 +37,7 @@ A gorgeous, fully-interactive new tab dashboard designed specifically for Hack C
   - Background style
 - Reorder widgets by dragging the `:::` handle
 
-## Spotify Integration (Requires Spotify Premium)
+## Spotify Integration
 
 To use the music widget:
 
@@ -66,18 +65,10 @@ To use the music widget:
 
 > **Note**: The Spotify Web Playback SDK requires a **Premium** account for full playback control. Free accounts can only search tracks.
 
-## Deployment
-
-This dashboard is 100% static, so you can deploy it easily on:
-
-- GitHub Pages
-- Vercel
-- Netlify
-- Cloudflare Pages
-
 ## Credits
 
 - Built for the awesome [Hack Club](https://hackclub.com) community
 - Weather data from [Open-Meteo](https://open-meteo.com)
 - Music provided by [SoundHelix](https://soundhelix.com)
+- Made with ❤️ by Rudy
 
