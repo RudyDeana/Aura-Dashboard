@@ -21,7 +21,7 @@ I made it because I was tired of opening a new tab and immediately being bored b
 - **Daily Signal** with a different quote-of-the-day and your streak stats (days active, tasks done, visits today).
 - **Drag-to-reorder** widgets. Layout is saved per-browser.
 - **Command bar (⌘K)** to jump-focus a widget, search the web, or open settings.
-- **Three accent themes** (cyan, violet, rose). Press `T` to cycle.
+- **Three accent themes** (cyan, violet, rose).
 
 ## What's new in this version
 
