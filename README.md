@@ -1,74 +1,125 @@
-# AURA Dashboard - Custom New Tab Page
+# AURA
 
-A fully-interactive new tab dashboard created specifically for Hack Club's **"Give Your Website a Pulse"** challenge
+A small, quiet new-tab dashboard I keep open in front of whatever boring tab the browser would otherwise show me.
 
-## What you'll find inside
+It's the kind of page you glance at thirty times a day: a clock that isn't lying to you, today's weather, a todo list you actually use, a Pomodoro when you want to disappear into something for 25 minutes, and a Notepad that doesn't ask you to sign in. Everything else is decoration, and there's intentionally not much of it.
 
--  **Varius color theme** with distinct color themes  
--  **Real-time weather** via Open-Meteo API  
--  **Pomodoro Timer** for focused work sessions  
--  **Task management** with persistent local storage  
--  **Speed Dial** – one-click access to your favorite websites  
--  **Deep Spotify integration** for seamless music control  
--  **Quick Notes** – auto-saving    
--  **Fully responsive** on mobile and desktop  
--  **Drag & Drop** widgets for ultimate customization  
--  **Command Bar** (Cmd/Ctrl + K) for quick actions  
+I made it because I was tired of opening a new tab and immediately being bored by it.
 
-## Tech Stack
+---
 
-- HTML5
-- CSS3 (Custom properties, animations, gradients)
-- Vanilla JavaScript (no frameworks)
-- Open-Meteo API (weather & geocoding)
+## What it actually does
 
-## Getting Up and Running
+- **A clock, a date, and a greeting** that updates in your local timezone. The seconds blink softly in the accent colour.
+- **Weather** for wherever you tell it (city name) or wherever you are (geolocation). Backed by the Open-Meteo API — no key required.
+- **Tasks** that you check off and that persist between visits.
+- **Speed Dial** with up to ~24 quick links. Drag nothing, just add a name + URL. Favicons are pulled automatically.
+- **Pomodoro / Focus** in three flavours: 25 minute work, 5 minute short break, 15 minute long break. It chimes when it's done.
+- **Quick Notes** that auto-save as you type (about 400 ms after you stop).
+- **Spotify** integration with the Web Playback SDK. You can search, queue next, scrub, control volume. Needs a free Client ID and a Premium account.
+- **Lo-fi particle background.** Soft, monochrome, mouse-reactive. You can turn it down or off entirely.
+- **Daily Signal** with a different quote-of-the-day and your streak stats (days active, tasks done, visits today).
+- **Drag-to-reorder** widgets. Layout is saved per-browser.
+- **Command bar (⌘K)** to jump-focus a widget, search the web, or open settings.
+- **Three accent themes** (cyan, violet, rose).
 
-1. Clone or download the repository
-2. Open `index.html` in your favorite web browser
-3. *(Optional)* Set it as your default new tab page
+## What's new in this version
 
-## Customization Options
+I reworked a few things while I was in there:
 
-- Change accent color by clicking the **sun icon** in the top bar
-- Open the **settings modal** (gear icon) to adjust:
-  - Particle density and speed
-  - Noise overlay effect
-  - Background style
-- Reorder widgets by dragging the `:::` handle
+- **An honest CSS pass.** Stripped out the glassmorphism. Replaced gradient cards with hairline borders. Big monochrome type. The dashboard now leans closer to an editorial layout than a marketed SaaS one. Less bling, more hierarchy.
+- **Habit Tracker (new widget).** Add a habit, tap the day, see your streak. Days live on the same calendar week so things stay simple.
+- **Export / Import.** One click in the topbar dumps every localStorage key to a JSON file. Drop that file back into the page on a different machine and your whole setup is restored — theme, layout, todos, notes, shortcuts, weather city, habits, the lot.
 
-## Spotify Integration
+## How I made it
 
-To use the music widget:
+This is a static project. There is no build step, no framework, no bundler, no package manager. Three files do all the work:
 
-1. **Get your Spotify Developer credentials**
-   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
-   - Log in with your Spotify account
-   - Click **"Create App"**, fill in name and description, accept terms
-   - Copy your **Client ID**
+```
+index.html   markup and structure
+style.css    one stylesheet, hand-rolled, no preprocessor
+script.js    one IIFE, vanilla, no dependencies
+callback.html Spotify OAuth landing page
+server.js    optional local server for testing the OAuth flow
+```
 
-2. **Configure the app**
-   - In `script.js` (around line 498), replace `'YOUR_SPOTIFY_CLIENT_ID'` with your Client ID
-   - Add your redirect URI in the Spotify dashboard:
-     - Local development: `http://localhost:5500/callback.html`
-     - Production: `https://yourdomain.com/callback.html`
+A few decisions I made early and stuck with:
 
-3. **Set Redirect URIs**
-   - Go to **Edit Settings** in your Spotify app
-   - Add the redirect URI(s) and save
+- **No frameworks.** React + Vite would have been faster to scaffold and slower to ship. Three small files you can read in ten minutes beats a node_modules graph none of us can fully explain.
+- **All state in localStorage.** Eight keys, defined in one place at the top of `script.js` so the export/import feature can dump the lot in one pass. No backend, no database, no sign-in. The price is that your data dies with your browser profile — the feature above lets you move it.
+- **One font, two weights.** Plus Jakarta Sans for prose (200, 400, 600), JetBrains Mono for anything tabular (times, numbers, the Pomodoro display). Drop-shoulder two-font pairs like this cost nothing and read consistently.
+- **Background is HTML canvas.** A few dozen particles twinkle against a flat canvas. Mouse proximity nudges them out of the way. Three palette modes (`pulse`, `nordic`, `cyber`) just swap the gradient. None of them depend on each other — change one and the rest keep working.
+- **Spotify uses PKCE.** No server-side secret. Per Spotify docs, this is the right shape for a static client.
 
-4. **Connect your account**
-   - Open the dashboard
-   - Click **"Connect Spotify"** in the music widget
-   - Authorize the app
-   - Start enjoying music control!
+The audio chime on the Pomodoro is a little Web Audio `sine` blip that can't be cooler. That's intentional.
 
-> **Note**: The Spotify Web Playback SDK requires a **Premium** account for full playback control. Free accounts can only search tracks.
+
+## Running it
+
+The simplest thing:
+
+```bash
+python3 -m http.server 5500
+# open http://localhost:5500
+```
+
+Or with the bundled node server:
+
+```bash
+node server.js
+# open http://localhost:3000
+```
+
+You don't strictly need a server — opening `index.html` directly works for everything except the Spotify OAuth callback, which needs an http(s) origin.
+
+## Making it your new tab
+
+### Chrome
+Settings → On startup → *Open a specific page* → `http://localhost:5500`
+
+### Firefox
+`about:home` has a "New Tab" tile; install an extension like *New Tab Override* to point it at AURA.
+
+### Safari
+Settings → General → *Homepage* and/or *New windows open with*.
+
+## Spotify setup (optional)
+
+The Spotify widget is light grey until you connect it. To make it work:
+
+1. Create an app at <https://developer.spotify.com/dashboard>.
+2. Copy the **Client ID**.
+3. In `script.js`, replace `YOUR_SPOTIFY_CLIENT_ID` with your Client ID.
+4. Add `http://localhost:5500/callback.html` as a redirect URI in the Spotify dashboard.
+5. Click "Connect Spotify" in the widget.
+
+You'll need Spotify **Premium** for the playback SDK to work; without it you can search but not play.
+
+## Storage keys, for the curious
+
+These are the eight keys AURA writes to `localStorage`. Refactoring or backing up by hand? These are all you need:
+
+| Key              | What it holds                              |
+|------------------|--------------------------------------------|
+| `aura-density`   | particle count (0–150)                     |
+| `aura-speed`     | particle drift multiplier                  |
+| `aura-noise`     | noise overlay enabled / disabled           |
+| `aura-bg-style`  | `pulse` / `nordic` / `cyber`               |
+| `aura-theme-idx` | 0 cyan, 1 violet, 2 rose                   |
+| `aura-grid-layout` | JSON array of widget names in current order |
+| `aura-todos`     | your task list                             |
+| `aura-notes`     | the body of notes                          |
+| `aura-shortcuts` | your speed-dial links                      |
+| `aura-weather-location` | the city name you last searched      |
+| `aura-habits`    | habit tracker state                        |
+| `aura-first-visit` / `aura-visit-count` / `aura-visit-date` | streak stats    |
+| `aura-pomo-done` | focus sessions completed                   |
+| `spotify_access_token` / `spotify_refresh_token` | OAuth tokens |
 
 ## Credits
 
-- Built for the awesome [Hack Club](https://hackclub.com) community
-- Weather data from [Open-Meteo](https://open-meteo.com)
-- Music provided by [SoundHelix](https://soundhelix.com)
-- Made with ❤️ by Rudy
+- [Open-Meteo](https://open-meteo.com) for the weather (no key, no ads, thank you).
+- [Hack Club](https://hackclub.com) for the original "Give Your Website a Pulse" prompt that prompted the first version.
+- [Spotify for Developers](https://developer.spotify.com) for the Playback SDK.
+- Icons are inline SVG. No icon library used.
 
